@@ -1,249 +1,176 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roblox Upload Script Hub</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0e0e0e;
-      color: white;
-      display: flex;
-      flex-direction: column;
-    }
-    @media(min-width:768px){
-      body { flex-direction: row; }
-    }
-    .sidebar {
-      width: 100%;
-      max-width: 250px;
-      background: #111;
-      padding: 20px;
-      box-sizing: border-box;
-      border-bottom: 2px solid #222;
-    }
-    @media(min-width:768px){
-      .sidebar { border-bottom: none; border-right: 2px solid #222; height: 100vh; }
-    }
-    .sidebar h2 {
-      margin-top: 0;
-      font-size: 22px;
-      color: #4da3ff;
-    }
-    .sidebar button {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 10px;
-      background: #1a1a1a;
-      border: 1px solid #333;
-      color: white;
-      cursor: pointer;
-      border-radius: 6px;
-    }
-    .sidebar button:hover {
-      background: #333;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Roblox Upload Script Hub</title>
+<style>
+  body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0e0e0e;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  @media(min-width:768px){
+    body { flex-direction: row; }
+  }
+  .sidebar {
+    width: 100%;
+    max-width: 250px;
+    background: #111;
+    padding: 20px;
+    box-sizing: border-box;
+    border-bottom: 2px solid #222;
+  }
+  @media(min-width:768px){
+    .sidebar { border-bottom: none; border-right: 2px solid #222; height: 100vh; }
+  }
+  .sidebar h2 { margin-top: 0; font-size: 22px; color: #4da3ff; }
+  .sidebar button { width: 100%; padding: 12px; margin-bottom: 10px; background: #1a1a1a; border: 1px solid #333; color: white; cursor: pointer; border-radius: 6px; }
+  .sidebar button:hover { background: #333; }
 
-    .content {
-      flex: 1;
-      padding: 20px;
-    }
+  .content { flex: 1; padding: 20px; box-sizing: border-box; }
 
-    .search-box input, .upload-box select {
-      width: 100%;
-      padding: 12px;
-      border-radius: 6px;
-      border: 1px solid #333;
-      background: #1b1b1b;
-      color: white;
-      margin-bottom: 20px;
-    }
+  .search-box input, .upload-box select, .login-box input {
+    width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #1b1b1b; color: white; margin-bottom: 10px;
+  }
 
-    .script-card {
-      background: #1a1a1a;
-      border: 1px solid #333;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 15px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
+  .script-card { background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; }
 
-    .upload-box {
-      background: #141414;
-      padding: 20px;
-      border: 1px solid #333;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
+  .upload-box, .login-box, .stats-box { background: #141414; padding: 20px; border: 1px solid #333; border-radius: 8px; margin-bottom: 20px; }
 
-    textarea {
-      width: 100%;
-      height: 150px;
-      background: #1b1b1b;
-      border: 1px solid #333;
-      color: white;
-      padding: 10px;
-      border-radius: 6px;
-      margin-bottom: 10px;
-    }
+  textarea { width: 100%; height: 150px; background: #1b1b1b; border: 1px solid #333; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
 
-    .upload-btn, .delete-btn, .view-btn {
-      padding: 8px 15px;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
-      margin-left: 5px;
-      font-weight: bold;
-    }
-
-    .upload-btn { background: #4da3ff; color: black; }
-    .delete-btn { background: #ff4d4d; color: black; }
-    .view-btn { background: #4dff88; color: black; }
-
-    .stats-box {
-      background: #141414;
-      padding: 20px;
-      border: 1px solid #333;
-      border-radius: 8px;
-      margin-top: 20px;
-    }
-
-    .login-box {
-      background: #141414;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-  </style>
+  .upload-btn, .delete-btn, .view-btn { padding: 8px 15px; border: none; cursor: pointer; border-radius: 6px; margin-left: 5px; font-weight: bold; }
+  .upload-btn { background: #4da3ff; color: black; }
+  .delete-btn { background: #ff4d4d; color: black; }
+  .view-btn { background: #4dff88; color: black; }
+</style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Script Hub</h2>
-    <button onclick="showTab('home')">Home</button>
-    <button onclick="showTab('upload')">Upload Script</button>
-    <button onclick="showTab('stats')">Stats</button>
+<div class="sidebar">
+  <h2>Script Hub</h2>
+  <button onclick="showTab('home')">Home</button>
+  <button onclick="showTab('upload')">Upload Script</button>
+  <button onclick="showTab('stats')">Stats</button>
+</div>
+
+<div class="content">
+  <div id="login" class="login-box">
+    <h3>Login</h3>
+    <input type="text" id="username" placeholder="Username" />
+    <button class="upload-btn" onclick="loginUser()">Login</button>
   </div>
 
-  <div class="content">
-    <div id="login" class="login-box">
-      <h3>Login</h3>
-      <input type="text" id="username" placeholder="Username" />
-      <button class="upload-btn" onclick="loginUser()">Login</button>
+  <div id="home" class="tab" style="display:none;">
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search scripts..." oninput="searchScripts()" />
     </div>
+    <div id="scriptList"></div>
+  </div>
 
-    <div id="home" class="tab">
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Search scripts..." onkeyup="searchScripts()" />
-      </div>
-      <div id="scriptList"></div>
-    </div>
-
-    <div id="upload" class="tab" style="display:none;">
-      <h2>Upload a Script</h2>
-      <div class="upload-box">
-        <input type="text" id="scriptName" placeholder="Script Name" />
-        <select id="scriptCategory">
-          <option value="Fun">Fun</option>
-          <option value="Admin">Admin</option>
-          <option value="Utility">Utility</option>
-        </select>
-        <textarea id="scriptCode" placeholder="Paste your Roblox Script here..."></textarea>
-        <button class="upload-btn" onclick="uploadScript()">Upload</button>
-      </div>
-    </div>
-
-    <div id="stats" class="tab" style="display:none;">
-      <h2>Website Statistics</h2>
-      <div class="stats-box">
-        <p>Total Scripts: <span id="totalScripts">0</span></p>
-        <p>Total Views: <span id="totalViews">0</span></p>
-        <p>Total Uploaders: <span id="totalUploaders">0</span></p>
-      </div>
+  <div id="upload" class="tab" style="display:none;">
+    <h2>Upload a Script</h2>
+    <div class="upload-box">
+      <input type="text" id="scriptName" placeholder="Script Name" />
+      <select id="scriptCategory">
+        <option value="Fun">Fun</option>
+        <option value="Admin">Admin</option>
+        <option value="Utility">Utility</option>
+      </select>
+      <textarea id="scriptCode" placeholder="Paste your Roblox Script here..."></textarea>
+      <button class="upload-btn" onclick="uploadScript()">Upload</button>
     </div>
   </div>
 
-  <script>
-    let scripts = [];
-    let views = 0;
-    let currentUser = null;
+  <div id="stats" class="tab" style="display:none;">
+    <h2>Website Statistics</h2>
+    <div class="stats-box">
+      <p>Total Scripts: <span id="totalScripts">0</span></p>
+      <p>Total Views: <span id="totalViews">0</span></p>
+      <p>Total Uploaders: <span id="totalUploaders">0</span></p>
+    </div>
+  </div>
+</div>
 
-    function loginUser() {
-      const name = document.getElementById('username').value.trim();
-      if(!name) return alert('Enter a username');
-      currentUser = name;
-      document.getElementById('login').style.display = 'none';
-      alert(`Logged in as ${currentUser}`);
-    }
+<script>
+let scripts = [];
+let views = 0;
+let currentUser = null;
 
-    function showTab(tab) {
-      document.querySelectorAll('.tab').forEach(t => t.style.display = 'none');
-      document.getElementById(tab).style.display = 'block';
-    }
+function loginUser() {
+  const name = document.getElementById('username').value.trim();
+  if(!name) return alert('Enter a username');
+  currentUser = name;
+  document.getElementById('login').style.display = 'none';
+  showTab('home');
+  alert(`Logged in as ${currentUser}`);
+}
 
-    function uploadScript() {
-      if(!currentUser) return alert('Login first');
-      let name = document.getElementById('scriptName').value;
-      let code = document.getElementById('scriptCode').value;
-      let category = document.getElementById('scriptCategory').value;
-      if (!name || !code) return alert('Please fill all fields');
+function showTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.style.display = 'none');
+  document.getElementById(tab).style.display = 'block';
+}
 
-      scripts.push({ name, code, category, uploader: currentUser });
-      updateScriptList();
-      updateStats();
+function uploadScript() {
+  if(!currentUser) return alert('Login first');
+  const name = document.getElementById('scriptName').value.trim();
+  const code = document.getElementById('scriptCode').value.trim();
+  const category = document.getElementById('scriptCategory').value;
+  if(!name || !code) return alert('Please fill all fields');
 
-      alert('Script uploaded!');
-      document.getElementById('scriptName').value = '';
-      document.getElementById('scriptCode').value = '';
-    }
+  scripts.push({ name, code, category, uploader: currentUser });
+  document.getElementById('scriptName').value = '';
+  document.getElementById('scriptCode').value = '';
+  updateScriptList();
+  updateStats();
+  alert('Script uploaded!');
+}
 
-    function updateScriptList() {
-      let list = document.getElementById('scriptList');
-      list.innerHTML = '';
-      scripts.forEach((s, i) => {
-        let div = document.createElement('div');
-        div.className = 'script-card';
-        div.innerHTML = `<div><h3>${s.name}</h3><p>Category: ${s.category}</p><p>Uploader: ${s.uploader}</p></div>` +
-                        `<div>` +
-                        `<button class='view-btn' onclick="viewScript(${i})">View</button>` +
-                        `<button class='delete-btn' onclick="deleteScript(${i})">Delete</button>` +
-                        `</div>`;
-        list.appendChild(div);
-      });
-    }
+function updateScriptList() {
+  const list = document.getElementById('scriptList');
+  list.innerHTML = '';
+  scripts.forEach((s,i) => {
+    const card = document.createElement('div');
+    card.className = 'script-card';
+    card.innerHTML = `<div><h3>${s.name}</h3><p>Category: ${s.category}</p><p>Uploader: ${s.uploader}</p></div>` +
+                     `<div>` +
+                     `<button class='view-btn' onclick='viewScript(${i})'>View</button>` +
+                     `<button class='delete-btn' onclick='deleteScript(${i})'>Delete</button>` +
+                     `</div>`;
+    list.appendChild(card);
+  });
+}
 
-    function viewScript(i) {
-      views++;
-      updateStats();
-      alert(`Script: ${scripts[i].name}\n\n${scripts[i].code}`);
-    }
+function viewScript(i) {
+  views++;
+  updateStats();
+  alert(`Script: ${scripts[i].name}\n\n${scripts[i].code}`);
+}
 
-    function deleteScript(i) {
-      if(currentUser !== scripts[i].uploader) return alert('You can only delete your own scripts');
-      scripts.splice(i, 1);
-      updateScriptList();
-      updateStats();
-    }
+function deleteScript(i) {
+  if(currentUser !== scripts[i].uploader) return alert('You can only delete your own scripts');
+  scripts.splice(i,1);
+  updateScriptList();
+  updateStats();
+}
 
-    function searchScripts() {
-      let text = document.getElementById('searchInput').value.toLowerCase();
-      document.querySelectorAll('.script-card').forEach(card => {
-        let title = card.querySelector('h3').innerText.toLowerCase();
-        card.style.display = title.includes(text) ? 'flex' : 'none';
-      });
-    }
+function searchScripts() {
+  const text = document.getElementById('searchInput').value.toLowerCase();
+  document.querySelectorAll('.script-card').forEach(card => {
+    const title = card.querySelector('h3').innerText.toLowerCase();
+    card.style.display = title.includes(text) ? 'flex' : 'none';
+  });
+}
 
-    function updateStats() {
-      document.getElementById('totalScripts').innerText = scripts.length;
-      document.getElementById('totalViews').innerText = views;
-      const uploaders = [...new Set(scripts.map(s => s.uploader))];
-      document.getElementById('totalUploaders').innerText = uploaders.length;
-    }
-  </script>
+function updateStats() {
+  document.getElementById('totalScripts').innerText = scripts.length;
+  document.getElementById('totalViews').innerText = views;
+  const uploaders = [...new Set(scripts.map(s => s.uploader))];
+  document.getElementById('totalUploaders').innerText = uploaders.length;
+}
+</script>
 </body>
 </html>
