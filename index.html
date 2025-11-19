@@ -5,48 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Roblox Upload Script Hub</title>
 <style>
-  body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #0e0e0e;
-    color: white;
-    display: flex;
-    flex-direction: column;
-  }
-  @media(min-width:768px){
-    body { flex-direction: row; }
-  }
-  .sidebar {
-    width: 100%;
-    max-width: 250px;
-    background: #111;
-    padding: 20px;
-    box-sizing: border-box;
-    border-bottom: 2px solid #222;
-  }
-  @media(min-width:768px){
-    .sidebar { border-bottom: none; border-right: 2px solid #222; height: 100vh; }
-  }
+  body { margin: 0; font-family: Arial, sans-serif; background: #0e0e0e; color: white; display: flex; flex-direction: column; }
+  @media(min-width:768px){ body { flex-direction: row; } }
+  .sidebar { width: 100%; max-width: 250px; background: #111; padding: 20px; box-sizing: border-box; border-bottom: 2px solid #222; }
+  @media(min-width:768px){ .sidebar { border-bottom: none; border-right: 2px solid #222; height: 100vh; } }
   .sidebar h2 { margin-top: 0; font-size: 22px; color: #4da3ff; }
   .sidebar button { width: 100%; padding: 12px; margin-bottom: 10px; background: #1a1a1a; border: 1px solid #333; color: white; cursor: pointer; border-radius: 6px; }
   .sidebar button:hover { background: #333; }
-
   .content { flex: 1; padding: 20px; box-sizing: border-box; }
-
-  .search-box input, .upload-box select, .login-box input {
-    width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #1b1b1b; color: white; margin-bottom: 10px;
-  }
-
+  .search-box input, .upload-box select, .login-box input { width: 100%; padding: 12px; border-radius: 6px; border: 1px solid #333; background: #1b1b1b; color: white; margin-bottom: 10px; }
   .script-card { background: #1a1a1a; border: 1px solid #333; padding: 15px; border-radius: 8px; margin-bottom: 15px; display: flex; justify-content: space-between; flex-wrap: wrap; align-items: center; }
-
   .upload-box, .login-box, .stats-box { background: #141414; padding: 20px; border: 1px solid #333; border-radius: 8px; margin-bottom: 20px; }
-
   textarea { width: 100%; height: 150px; background: #1b1b1b; border: 1px solid #333; color: white; padding: 10px; border-radius: 6px; margin-bottom: 10px; }
-
-  .upload-btn, .delete-btn, .view-btn { padding: 8px 15px; border: none; cursor: pointer; border-radius: 6px; margin-left: 5px; font-weight: bold; }
+  .upload-btn, .delete-btn, .view-btn, .copy-btn { padding: 8px 15px; border: none; cursor: pointer; border-radius: 6px; margin-left: 5px; font-weight: bold; }
   .upload-btn { background: #4da3ff; color: black; }
   .delete-btn { background: #ff4d4d; color: black; }
   .view-btn { background: #4dff88; color: black; }
+  .copy-btn { background: #ffd700; color: black; }
 </style>
 </head>
 <body>
@@ -138,6 +113,7 @@ function updateScriptList() {
     card.innerHTML = `<div><h3>${s.name}</h3><p>Category: ${s.category}</p><p>Uploader: ${s.uploader}</p></div>` +
                      `<div>` +
                      `<button class='view-btn' onclick='viewScript(${i})'>View</button>` +
+                     `<button class='copy-btn' onclick='copyScript(${i})'>Copy</button>` +
                      `<button class='delete-btn' onclick='deleteScript(${i})'>Delete</button>` +
                      `</div>`;
     list.appendChild(card);
@@ -148,6 +124,12 @@ function viewScript(i) {
   views++;
   updateStats();
   alert(`Script: ${scripts[i].name}\n\n${scripts[i].code}`);
+}
+
+function copyScript(i) {
+  navigator.clipboard.writeText(scripts[i].code).then(() => {
+    alert('Script copied to clipboard!');
+  }).catch(err => { alert('Failed to copy script.'); });
 }
 
 function deleteScript(i) {
