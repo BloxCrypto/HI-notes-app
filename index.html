@@ -98,19 +98,36 @@
         <div class="tab active" data-category="movement">Movement</div>
         <div class="tab" data-category="combat">Combat</div>
         <div class="tab" data-category="utility">Utility</div>
-        <div class="tab" data-category="mods">Mods</div>
+        <div class="tab" data-category="fun">Fun</div>
+        <div class="tab" data-category="misc">Misc</div>
     </div>
 
     <div class="container" id="scriptContainer"></div>
 
     <script>
         const scripts = [
+            // Movement
             {name: 'Fly Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/fly"))()'},
             {name: 'Speed Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/speed"))()'},
+            {name: 'Noclip', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/noclip"))()'},
+            
+            // Combat
             {name: 'ESP Script', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/esp"))()'},
             {name: 'Aim Assist', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/aim"))()'},
+            {name: 'Auto Farm', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/autofarm"))()'},
+            
+            // Utility
             {name: 'Infinite Jump', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/infinitejump"))()'},
-            {name: 'Anti AFK', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/antiafk"))()'}
+            {name: 'Anti AFK', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/antiafk"))()'},
+            {name: 'Teleport', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/teleport"))()'},
+            
+            // Fun
+            {name: 'Dance Animation', category: 'fun', code: 'loadstring(game:HttpGet("https://example.com/dance"))()'},
+            {name: 'Funny Effects', category: 'fun', code: 'loadstring(game:HttpGet("https://example.com/funnyeffects"))()'},
+            
+            // Misc
+            {name: 'Script Hub Info', category: 'misc', code: 'print("Welcome to Roblox Script Hub!")'},
+            {name: 'Credits', category: 'misc', code: 'print("Scripts provided by Roblox Script Hub Team")'}
         ];
 
         const container = document.getElementById('scriptContainer');
