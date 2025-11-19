@@ -1,200 +1,193 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roblox Script Hub</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-        body {
-            margin: 0;
-            font-family: 'Orbitron', monospace;
-            background: #0d0f17;
-            color: white;
-            display: flex;
-        }
-        header {
-            background: linear-gradient(90deg, #00f7ff, #ff00d4);
-            padding: 20px;
-            text-align: center;
-            font-size: 32px;
-            font-weight: bold;
-            text-shadow: 0 0 10px black;
-            flex-shrink: 0;
-        }
-        .sidebar {
-            width: 200px;
-            background: #1b1e2a;
-            height: 100vh;
-            padding-top: 20px;
-            display: flex;
-            flex-direction: column;
-            flex-shrink: 0;
-        }
-        .sidebar button {
-            background: #1b1e2a;
-            color: white;
-            border: none;
-            padding: 15px;
-            margin: 5px 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: left;
-            transition: 0.3s;
-        }
-        .sidebar button.active, .sidebar button:hover {
-            background: #00f7ff;
-            color: black;
-        }
-        .main {
-            flex-grow: 1;
-            padding: 20px;
-            overflow-y: auto;
-        }
-        #searchBar {
-            width: 90%;
-            max-width: 500px;
-            margin: 20px auto;
-            display: block;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #0f111a;
-            color: #00ffea;
-            font-family: monospace;
-        }
-        .script-box {
-            background: #1a1c29;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.4);
-            opacity: 0;
-            transform: translateY(20px);
-            transition: 0.5s;
-        }
-        .script-box.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        textarea, input, select, textarea.upload-field {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #0f111a;
-            color: #00ffea;
-            font-family: monospace;
-        }
-        button.copy-btn {
-            margin-top: 10px;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 6px;
-            background: #00b7ff;
-            color: black;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        button.copy-btn:hover {
-            background: #0095d1;
-        }
-        @media (max-width: 800px) {
-            body { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; }
-            .sidebar button { flex-grow: 1; margin: 5px; text-align: center; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roblox Upload Script Hub</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0e0e0e;
+      color: white;
+      display: flex;
+    }
+    .sidebar {
+      width: 250px;
+      background: #111;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+      border-right: 2px solid #222;
+    }
+    .sidebar h2 {
+      margin-top: 0;
+      font-size: 22px;
+      color: #4da3ff;
+    }
+    .sidebar button {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 10px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      color: white;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .sidebar button:hover {
+      background: #333;
+    }
+
+    .content {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 6px;
+      border: 1px solid #333;
+      background: #1b1b1b;
+      color: white;
+      margin-bottom: 20px;
+    }
+
+    .script-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+    }
+
+    .upload-box {
+      background: #141414;
+      padding: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      background: #1b1b1b;
+      border: 1px solid #333;
+      color: white;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .upload-btn {
+      margin-top: 10px;
+      padding: 12px 20px;
+      background: #4da3ff;
+      border: none;
+      color: black;
+      cursor: pointer;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+
+    .stats-box {
+      background: #141414;
+      padding: 20px;
+      border: 1px solid #333;
+      border-radius: 8px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="sidebar" id="sidebar">
-        <button class="active" data-category="uploaded">uploaded</button>
-        <button data-category="upload">Upload script</button>
+  <div class="sidebar">
+    <h2>Script Hub</h2>
+    <button onclick="showTab('home')">Home</button>
+    <button onclick="showTab('upload')">Upload Script</button>
+    <button onclick="showTab('stats')">Stats</button>
+  </div>
+
+  <div class="content">
+    <div id="home" class="tab">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search scripts..." onkeyup="searchScripts()" />
+      </div>
+      <div id="scriptList"></div>
     </div>
-    <div class="main">
-        <header>Roblox Script Hub</header>
-        <input type="text" id="searchBar" placeholder="Search scripts by name..." />
-        <div class="container" id="scriptContainer"></div>
+
+    <div id="upload" class="tab" style="display:none;">
+      <h2>Upload a Script</h2>
+      <div class="upload-box">
+        <input type="text" id="scriptName" placeholder="Script Name" style="width:100%;padding:10px;border-radius:6px;border:1px solid #333;background:#1b1b1b;color:white;" />
+        <textarea id="scriptCode" placeholder="Paste your Roblox Script here..."></textarea>
+        <button class="upload-btn" onclick="uploadScript()">Upload</button>
+      </div>
     </div>
 
-    <script>
-        const scripts = [
-            {name: 'Uploaded script in here', category: 'uploaded', code: 'upload your script here in upload script tab'},
-        ];
+    <div id="stats" class="tab" style="display:none;">
+      <h2>Website Statistics</h2>
+      <div class="stats-box">
+        <p>Total Scripts: <span id="totalScripts">0</span></p>
+        <p>Total Views: <span id="totalViews">0</span></p>
+        <p>Total Uploaders: <span id="totalUploaders">0</span></p>
+      </div>
+    </div>
+  </div>
 
-        const container = document.getElementById('scriptContainer');
-        const sidebarButtons = document.querySelectorAll('.sidebar button');
-        const searchBar = document.getElementById('searchBar');
-        let currentCategory = 'movement';
+  <script>
+    let scripts = [];
+    let views = 0;
 
-        function renderScripts(category, searchTerm = '') {
-            container.innerHTML = '';
+    function showTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.style.display = 'none');
+      document.getElementById(tab).style.display = 'block';
+    }
 
-            if(category === 'upload') {
-                const uploadBox = document.createElement('div');
-                uploadBox.className = 'script-box show';
-                uploadBox.innerHTML = `
-                    <h2>Upload Your Script</h2>
-                    <input type='text' id='scriptName' placeholder='Script Name' />
-                    <select id='scriptCategory'>
-                        <option value='uploaded'>uploaded</option>
-                    </select>
-                    <textarea class='upload-field' id='scriptCode' placeholder='Paste your script code here'></textarea>
-                    <button onclick='addScript()'>Submit Script</button>
-                `;
-                container.appendChild(uploadBox);
-                return;
-            }
+    function uploadScript() {
+      let name = document.getElementById('scriptName').value;
+      let code = document.getElementById('scriptCode').value;
+      if (!name || !code) return alert('Please fill all fields');
 
-            const filtered = scripts.filter(s => s.category === category && s.name.toLowerCase().includes(searchTerm.toLowerCase()));
-            filtered.forEach(script => {
-                const box = document.createElement('div');
-                box.className = 'script-box';
-                box.innerHTML = `<h2>${script.name}</h2><textarea readonly>${script.code}</textarea><button class='copy-btn' onclick='copyScript(this)'>Copy Script</button>`;
-                container.appendChild(box);
-                setTimeout(() => box.classList.add('show'), 50);
-            });
-        }
+      scripts.push({ name, code });
+      updateScriptList();
+      updateStats();
 
-        function addScript() {
-            const name = document.getElementById('scriptName').value;
-            const category = document.getElementById('scriptCategory').value;
-            const code = document.getElementById('scriptCode').value;
+      alert('Script uploaded!');
+      document.getElementById('scriptName').value = '';
+      document.getElementById('scriptCode').value = '';
+    }
 
-            if(name && code) {
-                scripts.push({name, category, code});
-                alert('Script uploaded successfully!');
-                renderScripts(category);
-            } else {
-                alert('Please provide a name and script code.');
-            }
-        }
+    function updateScriptList() {
+      let list = document.getElementById('scriptList');
+      list.innerHTML = '';
+      scripts.forEach((s, i) => {
+        let div = document.createElement('div');
+        div.className = 'script-card';
+        div.innerHTML = `<h3>${s.name}</h3><button onclick="viewScript(${i})">View Script</button>`;
+        list.appendChild(div);
+      });
+    }
 
-        sidebarButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                sidebarButtons.forEach(b => b.classList.remove('active'));
-                button.classList.add('active');
-                currentCategory = button.dataset.category;
-                renderScripts(currentCategory, searchBar.value);
-            });
-        });
+    function viewScript(i) {
+      views++;
+      updateStats();
+      alert(`Script: ${scripts[i].name}\n\n${scripts[i].code}`);
+    }
 
-        searchBar.addEventListener('input', () => {
-            renderScripts(currentCategory, searchBar.value);
-        });
+    function searchScripts() {
+      let text = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.script-card').forEach(card => {
+        let title = card.querySelector('h3').innerText.toLowerCase();
+        card.style.display = title.includes(text) ? 'block' : 'none';
+      });
+    }
 
-        renderScripts(currentCategory);
-
-        function copyScript(btn) {
-            const textarea = btn.previousElementSibling;
-            textarea.select();
-            textarea.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(textarea.value);
-            btn.innerText = "Copied!";
-            setTimeout(() => btn.innerText = "Copy Script", 1000);
-        }
-    </script>
+    function updateStats() {
+      document.getElementById('totalScripts').innerText = scripts.length;
+      document.getElementById('totalViews').innerText = views;
+      document.getElementById('totalUploaders').innerText = scripts.length; // simple placeholder
+    }
+  </script>
 </body>
 </html>
