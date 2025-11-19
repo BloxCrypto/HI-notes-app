@@ -153,48 +153,58 @@ function updateStats() {
   const uploaders = [...new Set(scripts.map(s => s.uploader))];
   document.getElementById('totalUploaders').innerText = uploaders.length;
 }
-  // --- AUTO-SAVE SYSTEM ------------------------------------------------------------------
-  function autoSave() {
+  // --- AUTO-SAVE SYSTEM FIXED ------------------------------------------------------------------
+window.onload = function () {
+
+  // Restore scripts
+  const savedScripts = localStorage.getItem('savedScripts');
+  if (savedScripts) scripts = JSON.parse(savedScripts);
+
+  // Restore user
+  const savedUser = localStorage.getItem('savedUser');
+  if (savedUser) {
+    currentUser = savedUser;
+    document.getElementById('loginBox').style.display = 'none';
+    document.getElementById('loggedUser').textContent = currentUser;
+  }
+
+  // Restore upload form
+  const savedForm = JSON.parse(localStorage.getItem('savedForm') || '{}');
+
+  if (document.getElementById('scriptTitle'))
+    document.getElementById('scriptTitle').value = savedForm.title || "";
+
+  if (document.getElementById('scriptCategory'))
+    document.getElementById('scriptCategory').value = savedForm.category || "";
+
+  if (document.getElementById('scriptCode'))
+    document.getElementById('scriptCode').value = savedForm.code || "";
+
+  renderScripts();
+  updateStats();
+
+  // ---- Start Auto Save ONLY AFTER EVERYTHING EXISTS ----
+  setInterval(function () {
+
+    if (document.getElementById('scriptTitle') &&
+        document.getElementById('scriptCategory') &&
+        document.getElementById('scriptCode')) {
+
+      localStorage.setItem('savedForm', JSON.stringify({
+        title: document.getElementById('scriptTitle').value,
+        category: document.getElementById('scriptCategory').value,
+        code: document.getElementById('scriptCode').value
+      }));
+    }
+
     // Save scripts
     localStorage.setItem('savedScripts', JSON.stringify(scripts));
 
-    // Save logged-in user
-    localStorage.setItem('savedUser', currentUser ? currentUser : '');
+    // Save user
+    localStorage.setItem('savedUser', currentUser || "");
 
-    // Save form inputs
-    localStorage.setItem('savedForm', JSON.stringify({
-      title: document.getElementById('scriptTitle').value,
-      category: document.getElementById('scriptCategory').value,
-      code: document.getElementById('scriptCode').value
-    }));
-  }
-
-  // Restore data on load
-  window.onload = function() {
-    // Restore scripts
-    const savedScripts = localStorage.getItem('savedScripts');
-    if (savedScripts) scripts = JSON.parse(savedScripts);
-
-    // Restore user
-    const savedUser = localStorage.getItem('savedUser');
-    if (savedUser) {
-      currentUser = savedUser;
-      document.getElementById('loginBox').style.display = 'none';
-      document.getElementById('loggedUser').textContent = currentUser;
-    }
-
-    // Restore upload form
-    const savedForm = JSON.parse(localStorage.getItem('savedForm') || '{}');
-    if (savedForm.title) document.getElementById('scriptTitle').value = savedForm.title;
-    if (savedForm.category) document.getElementById('scriptCategory').value = savedForm.category;
-    if (savedForm.code) document.getElementById('scriptCode').value = savedForm.code;
-
-    renderScripts();
-    updateStats();
-  };
-
-  // Auto-save every 2 seconds
-  setInterval(autoSave, 2000);
+  }, 2000);
+};
 </script>
 </body>
 </html>
