@@ -1,83 +1,97 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Roblox Scripts Hub</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roblox Script Hub</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #0d0f17;
+            color: white;
+        }
+        header {
+            background: #1b1e2a;
+            padding: 20px;
+            text-align: center;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .container {
+            padding: 20px;
+            max-width: 900px;
+            margin: auto;
+        }
+        .script-box {
+            background: #1a1c29;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.4);
+        }
+        .script-box h2 {
+            margin: 0 0 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #0f111a;
+            color: #00ffea;
+            border-radius: 8px;
+            border: none;
+            padding: 10px;
+            font-family: monospace;
+            resize: none;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            background: #00b7ff;
+            color: black;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0095d1;
+        }
+    </style>
 </head>
-<body class="bg-gray-900 text-white font-sans">
+<body>
+    <header>Roblox Script Hub</header>
+    <div class="container">
 
-  <!-- Navbar -->
-  <nav class="bg-gray-800 p-4 shadow-lg">
-    <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold text-blue-400">Roblox Scripts Hub</h1>
-      <ul class="flex space-x-6">
-        <li><a href="#" class="hover:text-blue-300">Home</a></li>
-        <li><a href="#scripts" class="hover:text-blue-300">Scripts</a></li>
-        <li><a href="#about" class="hover:text-blue-300">About</a></li>
-      </ul>
+        <div class="script-box">
+            <h2>Fly Script</h2>
+            <textarea readonly>loadstring(game:HttpGet("https://example.com/fly"))()</textarea>
+            <button onclick="copyScript(this)">Copy Script</button>
+        </div>
+
+        <div class="script-box">
+            <h2>ESP Script</h2>
+            <textarea readonly>loadstring(game:HttpGet("https://example.com/esp"))()</textarea>
+            <button onclick="copyScript(this)">Copy Script</button>
+        </div>
+
+        <div class="script-box">
+            <h2>Infinite Jump</h2>
+            <textarea readonly>loadstring(game:HttpGet("https://example.com/infinitejump"))()</textarea>
+            <button onclick="copyScript(this)">Copy Script</button>
+        </div>
+
     </div>
-  </nav>
 
-  <!-- Hero Section -->
-  <section class="text-center py-16 px-4">
-    <h2 class="text-4xl font-bold mb-4 text-blue-300">Free Roblox Scripts</h2>
-    <p class="text-lg text-gray-300 max-w-xl mx-auto">Browse, copy, and use powerful Roblox Lua scripts for your games or exploits. Always use scripts responsibly!</p>
-  </section>
-
-  <!-- Scripts Section -->
-  <section id="scripts" class="py-10 px-6 bg-gray-800">
-    <div class="max-w-5xl mx-auto">
-      <h3 class="text-3xl font-semibold mb-6 text-center text-blue-300">Featured Scripts</h3>
-      <div class="grid md:grid-cols-3 gap-6">
-
-        <!-- Script Card -->
-        <div class="bg-gray-700 rounded-xl p-5 shadow-lg">
-          <h4 class="text-xl font-semibold text-blue-200">Infinite Jump</h4>
-          <p class="text-sm mt-2 mb-4 text-gray-300">Allows your character to jump infinitely in the air.</p>
-          <pre class="bg-gray-900 p-2 text-xs rounded overflow-x-auto"><code>game:GetService("UserInputService").JumpRequest:Connect(function()
-    game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
-end)</code></pre>
-        </div>
-
-        <!-- Script Card -->
-        <div class="bg-gray-700 rounded-xl p-5 shadow-lg">
-          <h4 class="text-xl font-semibold text-blue-200">Speed Hack</h4>
-          <p class="text-sm mt-2 mb-4 text-gray-300">Change your walk speed in-game.</p>
-          <pre class="bg-gray-900 p-2 text-xs rounded overflow-x-auto"><code>game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 100</code></pre>
-        </div>
-
-        <!-- Script Card -->
-        <div class="bg-gray-700 rounded-xl p-5 shadow-lg">
-          <h4 class="text-xl font-semibold text-blue-200">ESP Script</h4>
-          <p class="text-sm mt-2 mb-4 text-gray-300">Highlight other players on the map.</p>
-          <pre class="bg-gray-900 p-2 text-xs rounded overflow-x-auto"><code>for i,v in pairs(game.Players:GetChildren()) do
-    if v ~= game.Players.LocalPlayer then
-        local esp = Instance.new("BoxHandleAdornment")
-        esp.Size = Vector3.new(4, 5, 1)
-        esp.Adornee = v.Character
-        esp.Color3 = Color3.new(1, 0, 0)
-        esp.AlwaysOnTop = true
-        esp.Parent = v.Character
-    end
-end</code></pre>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="py-12 px-6 text-center bg-gray-900">
-    <h3 class="text-2xl font-semibold text-blue-300">About</h3>
-    <p class="text-gray-400 max-w-xl mx-auto mt-4">This site is a collection of useful Roblox scripts intended for educational purposes. Always comply with Roblox's Terms of Service when using any code.</p>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 py-4 text-center text-sm text-gray-400">
-    © 2025 Roblox Scripts Hub — Created by [ZaancOff]
-  </footer>
-
+    <script>
+        function copyScript(btn) {
+            const textarea = btn.previousElementSibling;
+            textarea.select();
+            textarea.setSelectionRange(0, 99999);
+            navigator.clipboard.writeText(textarea.value);
+            btn.innerText = "Copied!";
+            setTimeout(() => btn.innerText = "Copy Script", 1000);
+        }
+    </script>
 </body>
 </html>
