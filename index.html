@@ -85,6 +85,28 @@
         button:hover {
             background: #0095d1;
         }
+        input, select, textarea.upload-field {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #0f111a;
+            color: #00ffea;
+            font-family: monospace;
+        }
+        #searchBar {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #0f111a;
+            color: #00ffea;
+            font-family: monospace;
+        }
         @media (max-width: 600px) {
             .tabs { flex-direction: column; align-items: center; }
             .tab { width: 80%; text-align: center; }
@@ -94,12 +116,15 @@
 <body>
     <header>Roblox Script Hub</header>
 
+    <input type="text" id="searchBar" placeholder="Search scripts by name..." />
+
     <div class="tabs">
         <div class="tab active" data-category="movement">Movement</div>
         <div class="tab" data-category="combat">Combat</div>
         <div class="tab" data-category="utility">Utility</div>
         <div class="tab" data-category="fun">Fun</div>
         <div class="tab" data-category="misc">Misc</div>
+        <div class="tab" data-category="upload">Upload Script</div>
     </div>
 
     <div class="container" id="scriptContainer"></div>
@@ -110,21 +135,17 @@
             {name: 'Fly Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/fly"))()'},
             {name: 'Speed Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/speed"))()'},
             {name: 'Noclip', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/noclip"))()'},
-            
             // Combat
             {name: 'ESP Script', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/esp"))()'},
             {name: 'Aim Assist', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/aim"))()'},
             {name: 'Auto Farm', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/autofarm"))()'},
-            
             // Utility
             {name: 'Infinite Jump', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/infinitejump"))()'},
             {name: 'Anti AFK', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/antiafk"))()'},
             {name: 'Teleport', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/teleport"))()'},
-            
             // Fun
             {name: 'Dance Animation', category: 'fun', code: 'loadstring(game:HttpGet("https://example.com/dance"))()'},
             {name: 'Funny Effects', category: 'fun', code: 'loadstring(game:HttpGet("https://example.com/funnyeffects"))()'},
-            
             // Misc
             {name: 'Script Hub Info', category: 'misc', code: 'print("Welcome to Roblox Script Hub!")'},
             {name: 'Credits', category: 'misc', code: 'print("Scripts provided by Roblox Script Hub Team")'}
@@ -132,10 +153,33 @@
 
         const container = document.getElementById('scriptContainer');
         const tabs = document.querySelectorAll('.tab');
+        const searchBar = document.getElementById('searchBar');
+        let currentCategory = 'movement';
 
-        function renderScripts(category) {
+        function renderScripts(category, searchTerm = '') {
             container.innerHTML = '';
-            const filtered = scripts.filter(s => s.category === category);
+
+            if(category === 'upload') {
+                const uploadBox = document.createElement('div');
+                uploadBox.className = 'script-box show';
+                uploadBox.innerHTML = `
+                    <h2>Upload Your Script</h2>
+                    <input type='text' id='scriptName' placeholder='Script Name' />
+                    <select id='scriptCategory'>
+                        <option value='movement'>Movement</option>
+                        <option value='combat'>Combat</option>
+                        <option value='utility'>Utility</option>
+                        <option value='fun'>Fun</option>
+                        <option value='misc'>Misc</option>
+                    </select>
+                    <textarea class='upload-field' id='scriptCode' placeholder='Paste your script code here'></textarea>
+                    <button onclick='addScript()'>Submit Script</button>
+                `;
+                container.appendChild(uploadBox);
+                return;
+            }
+
+            const filtered = scripts.filter(s => s.category === category && s.name.toLowerCase().includes(searchTerm.toLowerCase()));
             filtered.forEach(script => {
                 const box = document.createElement('div');
                 box.className = 'script-box';
@@ -145,13 +189,35 @@
             });
         }
 
+        function addScript() {
+            const name = document.getElementById('scriptName').value;
+            const category = document.getElementById('scriptCategory').value;
+            const code = document.getElementById('scriptCode').value;
+
+            if(name && code) {
+                scripts.push({name, category, code});
+                alert('Script uploaded successfully!');
+                renderScripts(category);
+            } else {
+                alert('Please provide a name and script code.');
+            }
+        }
+
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 tabs.forEach(t => t.classList.remove('active'));
                 tab.classList.add('active');
-                renderScripts(tab.dataset.category);
+                currentCategory = tab.dataset.category;
+                renderScripts(currentCategory, searchBar.value);
             });
         });
+
+        searchBar.addEventListener('input', () => {
+            renderScripts(currentCategory, searchBar.value);
+        });
+
+        // Initial render
+        renderScripts(currentCategory);
 
         function copyScript(btn) {
             const textarea = btn.previousElementSibling;
@@ -161,9 +227,6 @@
             btn.innerText = "Copied!";
             setTimeout(() => btn.innerText = "Copy Script", 1000);
         }
-
-        // Initial render
-        renderScripts('movement');
     </script>
 </body>
 </html>
