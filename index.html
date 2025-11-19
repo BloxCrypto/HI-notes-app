@@ -3,20 +3,40 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Roblox open source scripts</title>
+    <title>Roblox Script Hub</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Orbitron', monospace;
             background: #0d0f17;
             color: white;
         }
         header {
-            background: #1b1e2a;
+            background: linear-gradient(90deg, #00f7ff, #ff00d4);
             padding: 20px;
             text-align: center;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
+            text-shadow: 0 0 10px black;
+        }
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        .tab {
+            margin: 5px;
+            padding: 10px 20px;
+            background: #1b1e2a;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .tab.active {
+            background: #00f7ff;
+            color: black;
         }
         .container {
             padding: 20px;
@@ -29,6 +49,13 @@
             border-radius: 10px;
             margin-bottom: 20px;
             box-shadow: 0 0 10px rgba(0,0,0,0.4);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.5s;
+        }
+        .script-box.show {
+            opacity: 1;
+            transform: translateY(0);
         }
         .script-box h2 {
             margin: 0 0 10px;
@@ -53,43 +80,61 @@
             color: black;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.3s;
         }
         button:hover {
             background: #0095d1;
         }
+        @media (max-width: 600px) {
+            .tabs { flex-direction: column; align-items: center; }
+            .tab { width: 80%; text-align: center; }
+        }
     </style>
 </head>
 <body>
-    <header>Roblox open source scripts</header>
-    <div class="container">
+    <header>Roblox Script Hub</header>
 
-        <div class="script-box">
-            <h2>Fly Script</h2>
-            <textarea readonly>loadstring(game:HttpGet("https://example.com/fly"))()</textarea>
-            <button onclick="copyScript(this)">Copy Script</button>
-        </div>
-
-        <div class="script-box">
-            <h2>ESP Script</h2>
-            <textarea readonly>loadstring(game:HttpGet("https://example.com/esp"))()</textarea>
-            <button onclick="copyScript(this)">Copy Script</button>
-        </div>
-        
-        <div class="script-box">
-            <h2>Infinite Jump</h2>
-            <textarea readonly>loadstring(game:HttpGet("https://example.com/infinitejump"))()</textarea>
-            <button onclick="copyScript(this)">Copy Script</button>
-        </div>
-
-        <div class="script-box">
-            <h2>Infinite Jump</h2>
-            <textarea readonly>loadstring(game:HttpGet("https://example.com/infinitejump"))()</textarea>
-            <button onclick="copyScript(this)">Copy Script</button>
-        </div>
-
+    <div class="tabs">
+        <div class="tab active" data-category="movement">Movement</div>
+        <div class="tab" data-category="combat">Combat</div>
+        <div class="tab" data-category="utility">Utility</div>
     </div>
 
+    <div class="container" id="scriptContainer"></div>
+
     <script>
+        const scripts = [
+            {name: 'Fly Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/fly"))()'},
+            {name: 'Speed Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/speed"))()'},
+            {name: 'ESP Script', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/esp"))()'},
+            {name: 'Aim Assist', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/aim"))()'},
+            {name: 'Infinite Jump', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/infinitejump"))()'},
+            {name: 'Anti AFK', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/antiafk"))()'}
+        ];
+
+        const container = document.getElementById('scriptContainer');
+        const tabs = document.querySelectorAll('.tab');
+
+        function renderScripts(category) {
+            container.innerHTML = '';
+            const filtered = scripts.filter(s => s.category === category);
+            filtered.forEach(script => {
+                const box = document.createElement('div');
+                box.className = 'script-box';
+                box.innerHTML = `<h2>${script.name}</h2><textarea readonly>${script.code}</textarea><button onclick='copyScript(this)'>Copy Script</button>`;
+                container.appendChild(box);
+                setTimeout(() => box.classList.add('show'), 50);
+            });
+        }
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                renderScripts(tab.dataset.category);
+            });
+        });
+
         function copyScript(btn) {
             const textarea = btn.previousElementSibling;
             textarea.select();
@@ -98,6 +143,9 @@
             btn.innerText = "Copied!";
             setTimeout(() => btn.innerText = "Copy Script", 1000);
         }
+
+        // Initial render
+        renderScripts('movement');
     </script>
 </body>
 </html>
