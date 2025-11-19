@@ -206,5 +206,53 @@ window.onload = function () {
   }, 2000);
 };
 </script>
+  
+<!-- SIGN-UP MODAL -->
+<div id="signupBox" style="display:none; background:#111; padding:20px; border-radius:10px; margin-top:20px;">
+  <h2>Create Account</h2>
+  <input id="su_user" placeholder="Username" style="width:100%; margin:5px 0; padding:10px">
+  <input id="su_pass" type="password" placeholder="Password" style="width:100%; margin:5px 0; padding:10px">
+  <button onclick="signup()" style="width:100%; padding:10px; margin-top:10px;">Sign Up</button>
+  <button onclick="toggleSignup(false)" style="width:100%; padding:10px; margin-top:10px; background:#333;">Cancel</button>
+</div>
+
+<script>
+// --- USER DATABASE ---
+let users = JSON.parse(localStorage.getItem('usersDB') || '{}');
+
+function toggleSignup(show) {
+  document.getElementById('signupBox').style.display = show ? 'block' : 'none';
+}
+
+function signup() {
+  let u = document.getElementById('su_user').value.trim();
+  let p = document.getElementById('su_pass').value.trim();
+
+  if (!u || !p) return alert('Please fill all fields');
+  if (users[u]) return alert('Username already exists');
+
+  users[u] = { password: p };
+  localStorage.setItem('usersDB', JSON.stringify(users));
+
+  alert('Account created! You can now log in.');
+  toggleSignup(false);
+}
+
+// Replace login function
+function login() {
+  let user = document.getElementById('loginUser').value.trim();
+  let pass = document.getElementById('loginPass').value.trim();
+
+  if (!users[user]) return alert('User not found');
+  if (users[user].password !== pass) return alert('Incorrect password');
+
+  currentUser = user;
+  document.getElementById('loginBox').style.display = 'none';
+  document.getElementById('loggedUser').textContent = currentUser;
+
+  localStorage.setItem('savedUser', currentUser);
+}
+</script>
+
 </body>
 </html>
