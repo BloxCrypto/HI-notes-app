@@ -11,6 +11,7 @@
             font-family: 'Orbitron', monospace;
             background: #0d0f17;
             color: white;
+            display: flex;
         }
         header {
             background: linear-gradient(90deg, #00f7ff, #ff00d4);
@@ -19,29 +20,48 @@
             font-size: 32px;
             font-weight: bold;
             text-shadow: 0 0 10px black;
+            flex-shrink: 0;
         }
-        .tabs {
-            display: flex;
-            justify-content: center;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-        .tab {
-            margin: 5px;
-            padding: 10px 20px;
+        .sidebar {
+            width: 200px;
             background: #1b1e2a;
+            height: 100vh;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+        }
+        .sidebar button {
+            background: #1b1e2a;
+            color: white;
+            border: none;
+            padding: 15px;
+            margin: 5px 10px;
             border-radius: 8px;
             cursor: pointer;
+            text-align: left;
             transition: 0.3s;
         }
-        .tab.active {
+        .sidebar button.active, .sidebar button:hover {
             background: #00f7ff;
             color: black;
         }
-        .container {
+        .main {
+            flex-grow: 1;
             padding: 20px;
-            max-width: 900px;
-            margin: auto;
+            overflow-y: auto;
+        }
+        #searchBar {
+            width: 90%;
+            max-width: 500px;
+            margin: 20px auto;
+            display: block;
+            padding: 10px;
+            border-radius: 8px;
+            border: none;
+            background: #0f111a;
+            color: #00ffea;
+            font-family: monospace;
         }
         .script-box {
             background: #1a1c29;
@@ -57,21 +77,17 @@
             opacity: 1;
             transform: translateY(0);
         }
-        .script-box h2 {
-            margin: 0 0 10px;
-        }
-        textarea {
+        textarea, input, select, textarea.upload-field {
             width: 100%;
-            height: 150px;
-            background: #0f111a;
-            color: #00ffea;
+            padding: 10px;
+            margin-top: 10px;
             border-radius: 8px;
             border: none;
-            padding: 10px;
+            background: #0f111a;
+            color: #00ffea;
             font-family: monospace;
-            resize: none;
         }
-        button {
+        button.copy-btn {
             margin-top: 10px;
             padding: 10px 15px;
             border: none;
@@ -82,77 +98,50 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        button:hover {
+        button.copy-btn:hover {
             background: #0095d1;
         }
-        input, select, textarea.upload-field {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #0f111a;
-            color: #00ffea;
-            font-family: monospace;
-        }
-        #searchBar {
-            width: 90%;
-            max-width: 500px;
-            margin: 20px auto;
-            display: block;
-            padding: 10px;
-            border-radius: 8px;
-            border: none;
-            background: #0f111a;
-            color: #00ffea;
-            font-family: monospace;
-        }
-        @media (max-width: 600px) {
-            .tabs { flex-direction: column; align-items: center; }
-            .tab { width: 80%; text-align: center; }
+        @media (max-width: 800px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; flex-direction: row; flex-wrap: wrap; }
+            .sidebar button { flex-grow: 1; margin: 5px; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <header>Roblox Script Hub</header>
-
-    <input type="text" id="searchBar" placeholder="Search scripts by name..." />
-
-    <div class="tabs">
-        <div class="tab active" data-category="movement">Movement</div>
-        <div class="tab" data-category="combat">Combat</div>
-        <div class="tab" data-category="utility">Utility</div>
-        <div class="tab" data-category="fun">Fun</div>
-        <div class="tab" data-category="misc">Misc</div>
-        <div class="tab" data-category="upload">Upload Script</div>
+    <div class="sidebar" id="sidebar">
+        <button class="active" data-category="movement">Movement</button>
+        <button data-category="combat">Combat</button>
+        <button data-category="utility">Utility</button>
+        <button data-category="fun">Fun</button>
+        <button data-category="misc">Misc</button>
+        <button data-category="upload">Upload Script</button>
     </div>
-
-    <div class="container" id="scriptContainer"></div>
+    <div class="main">
+        <header>Roblox Script Hub</header>
+        <input type="text" id="searchBar" placeholder="Search scripts by name..." />
+        <div class="container" id="scriptContainer"></div>
+    </div>
 
     <script>
         const scripts = [
-            // Movement
             {name: 'Fly Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/fly"))()'},
             {name: 'Speed Script', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/speed"))()'},
             {name: 'Noclip', category: 'movement', code: 'loadstring(game:HttpGet("https://example.com/noclip"))()'},
-            // Combat
             {name: 'ESP Script', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/esp"))()'},
             {name: 'Aim Assist', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/aim"))()'},
             {name: 'Auto Farm', category: 'combat', code: 'loadstring(game:HttpGet("https://example.com/autofarm"))()'},
-            // Utility
             {name: 'Infinite Jump', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/infinitejump"))()'},
             {name: 'Anti AFK', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/antiafk"))()'},
             {name: 'Teleport', category: 'utility', code: 'loadstring(game:HttpGet("https://example.com/teleport"))()'},
-            // Fun
             {name: 'Dance Animation', category: 'fun', code: 'loadstring(game:HttpGet("https://example.com/dance"))()'},
             {name: 'Funny Effects', category: 'fun', code: 'loadstring(game:HttpGet("https://example.com/funnyeffects"))()'},
-            // Misc
             {name: 'Script Hub Info', category: 'misc', code: 'print("Welcome to Roblox Script Hub!")'},
             {name: 'Credits', category: 'misc', code: 'print("Scripts provided by Roblox Script Hub Team")'}
         ];
 
         const container = document.getElementById('scriptContainer');
-        const tabs = document.querySelectorAll('.tab');
+        const sidebarButtons = document.querySelectorAll('.sidebar button');
         const searchBar = document.getElementById('searchBar');
         let currentCategory = 'movement';
 
@@ -183,7 +172,7 @@
             filtered.forEach(script => {
                 const box = document.createElement('div');
                 box.className = 'script-box';
-                box.innerHTML = `<h2>${script.name}</h2><textarea readonly>${script.code}</textarea><button onclick='copyScript(this)'>Copy Script</button>`;
+                box.innerHTML = `<h2>${script.name}</h2><textarea readonly>${script.code}</textarea><button class='copy-btn' onclick='copyScript(this)'>Copy Script</button>`;
                 container.appendChild(box);
                 setTimeout(() => box.classList.add('show'), 50);
             });
@@ -203,11 +192,11 @@
             }
         }
 
-        tabs.forEach(tab => {
-            tab.addEventListener('click', () => {
-                tabs.forEach(t => t.classList.remove('active'));
-                tab.classList.add('active');
-                currentCategory = tab.dataset.category;
+        sidebarButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                sidebarButtons.forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                currentCategory = button.dataset.category;
                 renderScripts(currentCategory, searchBar.value);
             });
         });
@@ -216,7 +205,6 @@
             renderScripts(currentCategory, searchBar.value);
         });
 
-        // Initial render
         renderScripts(currentCategory);
 
         function copyScript(btn) {
